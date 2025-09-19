@@ -12,9 +12,11 @@ export const GridSkirmish: Game<GameState> = {
   setup: setupGame,
   turn: {
     onBegin: (state, ctx) => {
-      resetTurnFlags(state.units, ctx.currentPlayer as PlayerID);
+      if (!ctx) return;
+      const currentPlayer = ctx.currentPlayer as PlayerID;
+      resetTurnFlags(state.units, currentPlayer);
       cleanupSelection(state);
-      pushLog(state, `Player ${Number(ctx.currentPlayer) + 1}'s command phase.`);
+      pushLog(state, `Player ${Number(currentPlayer) + 1}'s command phase.`);
     },
     onEnd: (state) => {
       state.selectedCharacterId = null;

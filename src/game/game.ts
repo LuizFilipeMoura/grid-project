@@ -56,9 +56,11 @@ export const GridSkirmish: Game<GameState> = {
   },
   turn: {
     onBegin: (state, ctx) => {
-      resetTurnFlags(state.units, ctx.currentPlayer as PlayerID);
+      if (!ctx) return;
+      const currentPlayer = ctx.currentPlayer as PlayerID;
+      resetTurnFlags(state.units, currentPlayer);
       cleanupSelection(state);
-      pushLog(state, `Player ${Number(ctx.currentPlayer) + 1}'s command phase.`);
+      pushLog(state, `Player ${Number(currentPlayer) + 1}'s command phase.`);
     },
     onEnd: (state) => {
       state.selectedCharacterId = null;
@@ -123,6 +125,7 @@ export const GridSkirmish: Game<GameState> = {
     }
   },
   endIf: (state) => {
+    const totalUnits = listUnits(state).length;
     const remaining = {
       '0': aliveUnits(state, '0').length,
       '1': aliveUnits(state, '1').length
@@ -131,9 +134,13 @@ export const GridSkirmish: Game<GameState> = {
     console.log('endIf check:', {
       player0Units: remaining['0'],
       player1Units: remaining['1'],
-      totalUnits: listUnits(state).length,
+      totalUnits,
       units: Object.keys(state.units || {})
     });
+
+    if (totalUnits === 0) {
+      return undefined;
+    }
 
     if (remaining['0'] === 0 && remaining['1'] === 0) {
       return { draw: true };
