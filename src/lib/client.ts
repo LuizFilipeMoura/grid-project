@@ -19,5 +19,5 @@ export const createClient = (server: string) =>
     game: GridSkirmish,
     board: GridBoard,
     multiplayer: SocketIO({ server }),
-    debug: false
+    debug: true
   });

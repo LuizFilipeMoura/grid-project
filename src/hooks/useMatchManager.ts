@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 import type { PlayerID } from '../types';
-import { GridSkirmish } from '../game';
+import { GridSkirmish } from '../game/index.ts';
 
 type SessionRecord = { matchID: string; playerID: PlayerID; credentials: string };
 

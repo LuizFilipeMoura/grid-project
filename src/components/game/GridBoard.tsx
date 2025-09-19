@@ -12,6 +12,15 @@ import './GridBoard.css';
 const tileKey = (point: Point) => `${point.x},${point.y}`;
 
 export const GridBoard = ({G, ctx, moves, playerID, isActive, events}: BoardProps<GameState>) => {
+    console.log('🎮 GridBoard render:', {
+        G,
+        ctx,
+        playerID,
+        isActive,
+        hasUnits: !!G?.units,
+        unitsCount: G?.units ? Object.keys(G.units).length : 0
+    });
+
     const units = useMemo(() => listUnits(G).sort((a, b) => a.id.localeCompare(b.id)), [G]);
     const selected = G.selectedCharacterId ? G.units[G.selectedCharacterId] : undefined;
 
@@ -29,6 +38,7 @@ export const GridBoard = ({G, ctx, moves, playerID, isActive, events}: BoardProp
         if (!isActive || !playerID || isGameOver) return;
         const occupant = getUnitAtPosition(G, point);
         if (occupant && occupant.playerID === playerID) {
+            console.log("Selected unit:", occupant);
             moves.selectCharacter(occupant.id);
             return;
         }
