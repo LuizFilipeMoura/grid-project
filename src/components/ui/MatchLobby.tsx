@@ -3,8 +3,10 @@ import type { PlayerID } from '../../types';
 
 interface MatchLobbyProps {
   matchID: string;
+  // eslint-disable-next-line no-unused-vars
   setMatchID: (id: string) => void;
   playerID: PlayerID;
+  // eslint-disable-next-line no-unused-vars
   setPlayerID: (id: PlayerID) => void;
   statusMessage: string;
   isLoading: boolean;

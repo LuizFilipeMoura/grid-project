@@ -19,6 +19,7 @@ export const cleanupSelection = (state: GameState) => {
 };
 
 export const checkGameEnd = (state: GameState) => {
+  const totalUnits = listUnits(state).length;
   const remaining = {
     '0': aliveUnits(state, '0').length,
     '1': aliveUnits(state, '1').length
@@ -27,9 +28,18 @@ export const checkGameEnd = (state: GameState) => {
   console.log('endIf check:', {
     player0Units: remaining['0'],
     player1Units: remaining['1'],
-    totalUnits: listUnits(state).length,
+    totalUnits,
     units: Object.keys(state.units || {})
   });
+
+  // When the match is first created the client may briefly receive an empty
+  // game state before setup finishes hydrating the unit map. In that window the
+  // remaining-unit counts are also zero which incorrectly tripped the draw
+  // condition and ended the game immediately. Guard against this by requiring
+  // that the board actually contains units before checking for a draw.
+  if (totalUnits === 0) {
+    return undefined;
+  }
 
   if (remaining['0'] === 0 && remaining['1'] === 0) {
     return { draw: true };

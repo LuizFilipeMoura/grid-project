@@ -3,9 +3,12 @@ import { resolveServerUrl, createClient } from '../../lib/client';
 import { MatchLobby } from '../ui/MatchLobby';
 import { useMatchManager } from '../../hooks/useMatchManager';
 
+type StoredSession = { matchID: string; playerID: string; credentials: string };
+
 interface GameRoomProps {
-  storedSession: { matchID: string; playerID: string; credentials: string } | null;
-  storeSession: (session: { matchID: string; playerID: string; credentials: string } | null) => void;
+  storedSession: StoredSession | null;
+  // eslint-disable-next-line no-unused-vars
+  storeSession: (session: StoredSession | null) => void;
 }
 
 export const GameRoom = ({ storedSession, storeSession }: GameRoomProps) => {

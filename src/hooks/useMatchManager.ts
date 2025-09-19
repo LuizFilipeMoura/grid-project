@@ -2,9 +2,12 @@ import { useState, useCallback } from 'react';
 import type { PlayerID } from '../types';
 import { GridSkirmish } from '../game';
 
+type SessionRecord = { matchID: string; playerID: PlayerID; credentials: string };
+
 interface UseMatchManagerProps {
   serverUrl: string;
-  storeSession: (session: { matchID: string; playerID: PlayerID; credentials: string } | null) => void;
+  // eslint-disable-next-line no-unused-vars
+  storeSession: (session: SessionRecord | null) => void;
 }
 
 export const useMatchManager = ({ serverUrl, storeSession }: UseMatchManagerProps) => {
