@@ -6,7 +6,8 @@ export const manhattanDistance = (a: Point, b: Point) => Math.abs(a.x - b.x) + M
 export const isWithinBounds = (point: Point): boolean =>
   point.x >= 0 && point.x < BOARD_SIZE && point.y >= 0 && point.y < BOARD_SIZE;
 
-export const listUnits = (state: GameState): CharacterState[] => Object.values(state.units);
+export const listUnits = (state: GameState): CharacterState[] =>
+  state.units ? Object.values(state.units) : [];
 
 export const aliveUnits = (state: GameState, playerID?: PlayerID) =>
   listUnits(state).filter((unit) => unit.hp > 0 && (playerID === undefined || unit.playerID === playerID));

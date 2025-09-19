@@ -1,6 +1,6 @@
 import classNames from 'classnames';
-import type { CharacterState } from '../game/types.ts';
-import { CLASS_DEFINITIONS } from '../game/constants.ts';
+import type { CharacterState } from '../../types';
+import { CLASS_DEFINITIONS } from '../../game/constants.ts';
 import './PlayerPanel.css';
 
 interface PlayerPanelProps {

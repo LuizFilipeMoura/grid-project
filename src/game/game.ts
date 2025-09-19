@@ -2,7 +2,7 @@ import type { Game } from 'boardgame.io';
 import { Ctx } from 'boardgame.io';
 import { createUnit, INITIAL_FORMATIONS, CLASS_DEFINITIONS } from './constants.ts';
 import type { CharacterState, GameState, PlayerID } from './types.ts';
-import { aliveUnits, getAttackableTiles, getUnitAtPosition, getReachableTiles, pushLog } from './utils.ts';
+import { aliveUnits, getAttackableTiles, getUnitAtPosition, getReachableTiles, pushLog, listUnits } from './utils.ts';
 
 const DAMAGE_SPLASH_OFFSETS = [
   { x: 1, y: 0 },
@@ -42,11 +42,17 @@ export const GridSkirmish: Game<GameState> = {
       });
     });
 
-    return {
+    console.log('Setup created units:', Object.keys(units));
+    console.log('Setup units count:', Object.keys(units).length);
+
+    const gameState = {
       units,
       selectedCharacterId: null,
       log: []
     } satisfies GameState;
+
+    console.log('Final game state units:', Object.keys(gameState.units));
+    return gameState;
   },
   turn: {
     onBegin: (state, ctx) => {
@@ -121,6 +127,14 @@ export const GridSkirmish: Game<GameState> = {
       '0': aliveUnits(state, '0').length,
       '1': aliveUnits(state, '1').length
     } as Record<PlayerID, number>;
+
+    console.log('endIf check:', {
+      player0Units: remaining['0'],
+      player1Units: remaining['1'],
+      totalUnits: listUnits(state).length,
+      units: Object.keys(state.units || {})
+    });
+
     if (remaining['0'] === 0 && remaining['1'] === 0) {
       return { draw: true };
     }

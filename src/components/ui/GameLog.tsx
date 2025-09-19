@@ -1,4 +1,4 @@
-import type { GameLogEntry } from '../game/types.ts';
+import type { GameLogEntry } from '../../types';
 import './GameLog.css';
 
 interface GameLogProps {
